@@ -5,23 +5,18 @@ const fs = require("fs");
 // const path = require("path");
 const PORT = 4000;
 const express = require("express");
+const morgan = require("morgan"); // third party middleware
 const app = express();
 
 app.use(express.json()); // builtin middleware
+
+// app.use(morgan("dev"));
+app.use(morgan("default"));
+
 app.use(express.static("public")); // builtin middleware
 // app.use(express.urlencoded()); // builtin middleware
 
-const auth = (req, res, next) => {
-  //   if (req.query.password === "123") {
-  if (req.body.password === "123") {
-    // console.log("authorize");
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-};
-
-app.get("/", auth, (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send({ type: req.method });
 });
 
