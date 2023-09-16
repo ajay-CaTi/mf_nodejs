@@ -1,46 +1,17 @@
-const http = require("http");
 const fs = require("fs");
-const PORT = 4000;
-
+// const index = fs.readFileSync("./index.html", "utf-8");
 const data = JSON.parse(fs.readFileSync("./data.json", "utf-8"));
-const products = data.products;
-const index = fs.readFileSync("./index.html", "utf-8");
-// fs.readFile("./data.json", "utf-8", (err, data) => {
-//   console.log(err, data);
-// });
+// const products = data.products;
+const path = require("path");
+const PORT = 4000;
+const express = require("express");
+const app = express();
 
-const server = http.createServer((req, res) => {
-  if (req.url.startsWith("/product")) {
-    const id = req.url.split("/")[2];
-    const product = products.find((p) => p.id === +id);
-    console.log(product);
-    res.writeHead(200, { "Content-Type": "text/html" });
-    //   res.end(JSON.stringify({ result: "about" }));
-    const Dynindex = index
-      .replace("**title**", product.title)
-      .replace("**thumbnail**", product.thumbnail)
-      .replace("**price**", product.price)
-      .replace("**rating**", product.rating);
-    res.end(Dynindex);
-    return;
-  }
-
-  switch (req.url) {
-    case "/":
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(JSON.stringify(data));
-      break;
-
-    default:
-      res.writeHead(404, { "Content-Type": "text/html" });
-      res.end("404 error");
-      break;
-  }
+app.get("/", (req, res) => {
+  //   console.log(path.resolve(__dirname, "index.html"));
+  res.status(200).sendFile(path.resolve(__dirname, "index.html")); // can send  a file over a perticulat api
 });
 
-server.listen(PORT, () => {
-  console.log("server run on port 4000");
+app.listen(PORT, () => {
+  console.log(`Server run on port ${PORT}`);
 });
-
-// const dd = performance.now();
-// console.log(dd);
