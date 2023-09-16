@@ -1,45 +1,33 @@
+const http = require("http");
 const fs = require("fs");
+const PORT = 4000;
 
-// fs.writeFile("we.text", "i am text", (err) => {
-//   console.log(err);
-// });
-
-// fs.readFile("we.text", "utf-8", (err, data) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(data);
-//   }
-// });
-
-// fs.writeFileSync("we.text", "rewritten data");
-
-// const data = fs.readFileSync("we.text", "utf-8");
-// console.log(data);
-
-fs.mkdir("mk", (err) => {
-  console.log("folder created");
+fs.readFile("./data.json", "utf-8", (err, data) => {
+  console.log(err, data);
 });
 
-fs.writeFile("we.text", "do some", (err) => {
-  console.log(err);
+const server = http.createServer((req, res) => {
+  switch (req.url) {
+    case "/":
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end("success");
+      break;
+
+    case "/about":
+      res.writeHead(200, { "Content-Type": "text/json" });
+      res.end(JSON.stringify({ result: "about" }));
+      break;
+
+    default:
+      res.writeHead(404, { "Content-Type": "text/html" });
+      res.end("404 error");
+      break;
+  }
 });
 
-fs.rename("we.text", "yo.text", (err) => {
-  console.log(err);
+server.listen(PORT, () => {
+  console.log("serer run on port 4000");
 });
 
-fs.appendFile("yo.text", " another", (err) => {
-  console.log(err, "err");
-});
-
-fs.unlink("yo.text", (err) => {
-  console.log(err);
-});
-
-fs.rmdir("mk", (err) => {
-  console.log(err);
-});
-
-const dd = performance.now();
-console.log(dd);
+// const dd = performance.now();
+// console.log(dd);
