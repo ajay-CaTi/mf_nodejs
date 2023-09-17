@@ -4,6 +4,7 @@ const products = data.products;
 
 // Create POST /products
 exports.createProduct = (req, res) => {
+  const date = new Date();
   console.log(req.body);
   products.push(req.body);
   res.status(200).send(req.body);
