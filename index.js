@@ -8,8 +8,8 @@ const userRouter = require("./routes/user");
 // const morgan = require("morgan");
 const app = express();
 
-app.use(express.json());
-app.use(express.static("public"));
+app.use(express.json()); // mendatory fields
+app.use(express.static("public")); // mendatory fields
 app.use("/products", productRouter.router);
 app.use("/users", userRouter.router);
 // app.use(morgan("default"));
